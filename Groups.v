@@ -122,3 +122,41 @@ Proof.
   rewrite <- H.
   reflexivity.
 Qed.
+
+(*Prawo skracania z lewej strony*)
+Theorem left_cancellation :
+  forall (G : Type) (e : G) (op : G -> G -> G) (inv : G -> G) (a b c : G),
+    is_group G e op inv -> op a b = op a c -> b = c.
+Proof.
+  intros G e op inv a b c Hgroup H1.
+  destruct Hgroup.
+  destruct H0.
+  destruct H2.
+  destruct H3.
+  rewrite <- (H0 b).
+  rewrite <- (H0 c).
+  rewrite <- (H3 a).
+  rewrite <- H.
+  rewrite <- H.
+  rewrite <- H1.
+  reflexivity.
+Qed.
+
+(*Prawo skracania z prawej strony*)
+Theorem right_cancellation :
+  forall (G : Type) (e : G) (op : G -> G -> G) (inv : G -> G) (a b c : G),
+    is_group G e op inv -> op b a = op c a -> b = c.
+Proof.
+  intros G e op inv a b c Hgroup H1.
+  destruct Hgroup.
+  destruct H0.
+  destruct H2.
+  destruct H3.
+  rewrite <- (H2 b).
+  rewrite <- (H2 c).
+  rewrite <- (H4 a).
+  rewrite H.
+  rewrite H.
+  rewrite H1.
+  reflexivity.
+Qed.
