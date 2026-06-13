@@ -1,0 +1,28 @@
+(* Definiujemy grupę*)
+(* is_group mówi, że podane obiekty spełniają aksjomaty grup.*)
+Definition is_group
+  (G : Type) (*odpowiedni zbioru*)
+  (e : G) (*element neutralny*)
+  (op : G -> G -> G) (* działanie grupowe*)
+  (inv : G -> G) (*działanie odwrotności*)
+  : Prop := (*Aksjomaty grupy*)
+  (forall a b c : G, op a (op b c) = op (op a b) c)
+  /\
+  (forall a : G, op e a = a)
+  /\
+  (forall a : G, op a e = a)
+  /\
+  (forall a : G, op (inv a) a = e)
+  /\
+  (forall a : G, op a (inv a) = e).
+      
+Require Import ZArith.
+Open Scope Z_scope.
+Compute (Z.add 2 3).
+Compute (Z.opp 7).
+
+
+(*Tu miała być grupa liczba całkowitych*)
+Definition Z_group :=
+  is_group Z 0 Z.add Z.opp.
+Check Z_group.
