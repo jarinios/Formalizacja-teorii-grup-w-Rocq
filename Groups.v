@@ -340,24 +340,24 @@ Qed.
 
 
 (*3*)
-Inductive Z3 : Type := | z0 | z1 | z2.
+Inductive Z3 : Type := | z30 | z31 | z32.
 
 Definition Z3_add (a b : Z3) : Z3 :=
   match a, b with
-  | z0, x => x 
-  | x, z0 => x 
-  | z1, z1 => z2
-  | z1, z2 => z0 
-  | z2, z1 => z0 
-  | z2, z2 => z1 end.
+  | z30, x => x 
+  | x, z30 => x 
+  | z31, z31 => z32
+  | z31, z32 => z30 
+  | z32, z31 => z30 
+  | z32, z32 => z31 end.
 
-Definition Z3_zero : Z3 := z0.
+Definition Z3_zero : Z3 := z30.
 
 Definition Z3_inv (a : Z3) : Z3 := 
   match a with
-  | z0 => z0
-  | z1 => z2 
-  | z2 => z1 
+  | z30 => z30
+  | z31 => z32 
+  | z32 => z31 
 end.
 
 (*Definicja grupy abelowej*)
