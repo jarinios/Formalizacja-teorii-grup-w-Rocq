@@ -55,8 +55,7 @@ Definition right_coset
   
   
   
-  
-  
+(*Przykład z grupą Z4, udowodnimy, że Z4 jest grupą*)
   
   
 Inductive Z4 : Type :=
@@ -134,28 +133,48 @@ Proof.
   - apply Z4_inv_l.
   - apply Z4_inv_r.
 Qed.
+    
+(*Przykład, że Z2 jest podgrupą Z4*)
+
+Definition Z2_subgroup : Ensemble Z4 :=
+  fun x => x = z0 \/ x = z2.
   
+Theorem Z2_is_subgroup :
+  is_subgroup Z4 Z4_zero Z4_add Z4_inv Z2_subgroup.
+Proof.
+  unfold is_subgroup.
+  unfold Z2_subgroup.
+  unfold Z4_zero.
+  simpl.
+  split.
+  - left.
+    reflexivity.
+  - split.
+    + intros a b H0 H1.
+      destruct H0 as [H01 | H02];
+      destruct H1 as [H11 | H12];
+      subst; (* Wykonuje podstawienia*)
+      simpl.
+      * left.
+        reflexivity.
+      * right.
+        reflexivity.
+      * right.
+        reflexivity.
+      * left.
+        reflexivity.
+
+    + intros a H0.
+      destruct H0 as [H01 | H02];
+      subst;  (* Wykonuje podstawienia*)
+      simpl.
+      * left. 
+        reflexivity.
+      * right. 
+        reflexivity.
+Qed.
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+   
   
   
 (*2. Podstawowe twierdzenia i przykłady*)
@@ -311,16 +330,12 @@ Proof.
       destruct H1.
       destruct H2.
       apply H3.
-
     + destruct Hgroup.
       destruct H0.
       destruct H1.
       destruct H2.
       apply H2.      
 Qed.
-  
-(*Przykłady *)
-
 
 
 
