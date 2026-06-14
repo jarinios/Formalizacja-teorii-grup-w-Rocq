@@ -18,17 +18,6 @@ Definition is_group
   /\
   (forall a : G, op a (inv a) = e).
       
-Require Import ZArith.
-Open Scope Z_scope.
-Compute (Z.add 2 3).
-Compute (Z.opp 7).
-
-
-(*Tu miała być grupa liczba całkowitych*)
-Definition Z_group :=
-  is_group Z 0 Z.add Z.opp.
-Check Z_group.
-
 
 Require Import Ensembles.
 
@@ -45,10 +34,6 @@ Definition is_subgroup
   (forall a b : G, In G H a -> In G H b -> In G H (op a b))
   /\
   (forall a : G, In G H a -> In G H (inv a)).
-  
-
-(*Przykład*)
-
 
 
 (*Definicja wartwy lewostronnej*)
@@ -70,8 +55,110 @@ Definition right_coset
   
   
   
-(*2. Podstawowe twierdzenia i przykłady*)
+  
+  
+  
+  
+Inductive Z4 : Type :=
+  | z0 | z1 | z2 | z3.
 
+Definition Z4_add (a b : Z4) : Z4 :=
+  match a, b with
+  | z0, x => x
+  | x, z0 => x
+  | z1, z1 => z2
+  | z1, z2 => z3
+  | z1, z3 => z0
+  | z2, z1 => z3
+  | z2, z2 => z0
+  | z2, z3 => z1
+  | z3, z1 => z0
+  | z3, z2 => z1
+  | z3, z3 => z2
+  end.
+
+
+Definition Z4_zero : Z4 := z0.
+
+Definition Z4_inv (a : Z4) : Z4 :=
+  match a with
+  | z0 => z0
+  | z1 => z3
+  | z2 => z2
+  | z3 => z1
+  end.
+
+
+Lemma Z4_add_zero_r :
+  forall a, Z4_add a Z4_zero = a.
+Proof.
+  intros a.
+  destruct a; simpl; reflexivity.
+Qed.
+
+Lemma Z4_add_assoc :
+  forall a b c, Z4_add a (Z4_add b c) = Z4_add (Z4_add a b) c.
+Proof.
+  intros a b c.
+  destruct a, b, c;
+  simpl;
+  reflexivity.
+Qed.
+
+Lemma Z4_inv_l :
+  forall a, Z4_add (Z4_inv a) a = Z4_zero.
+Proof.
+  intros a.
+  destruct a;
+  simpl; 
+  reflexivity.
+Qed.
+
+Lemma Z4_inv_r :
+  forall a, Z4_add a (Z4_inv a) = Z4_zero.
+Proof.
+  intros a.
+  destruct a;
+  simpl;
+  reflexivity.
+Qed. 
+
+  
+Theorem Z4_is_group :
+  is_group Z4 Z4_zero Z4_add Z4_inv.
+Proof.
+  unfold is_group.
+  repeat split.
+  - apply Z4_add_assoc.
+  - apply Z4_add_zero_r.
+  - apply Z4_inv_l.
+  - apply Z4_inv_r.
+Qed.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+(*2. Podstawowe twierdzenia i przykłady*)
 
 (*Dla każdej grupy istnieje dokładnie jeden element neutralny*)
 (*Na początek definiujemy co znaczny, że element jest neutralny*)
@@ -87,10 +174,10 @@ Theorem identity_unique_in_group :
     is_identity G op e1 -> is_identity G op e2 -> e1 = e2.
 Proof.
   intros G op e1 e2 H1 H2.
-  destruct H1 as [H1_left H1_right].
-  destruct H2 as [H2_left H2_right].
-  rewrite <- (H1_left e2).
-  rewrite (H2_right e1).
+  destruct H1 as [H11 H12]. (*Wygodny sposób robicia*)
+  destruct H2 as [H21 H22].
+  rewrite <- (H11 e2).
+  rewrite (H22 e1).
   reflexivity.
 Qed.
 
@@ -232,6 +319,9 @@ Proof.
       apply H2.      
 Qed.
   
+(*Przykłady *)
+
+
 
 
 (*3*)
@@ -294,10 +384,6 @@ Proof.
     destruct b;
     reflexivity.
 Qed. 
- 
- 
- 
- 
  
  
  
