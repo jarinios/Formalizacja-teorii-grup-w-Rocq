@@ -160,3 +160,146 @@ Proof.
   rewrite H1.
   reflexivity.
 Qed.
+
+
+(*(a^-1)^-1 = a*)
+Theorem inv_involutive :
+  forall (G : Type) (e : G) (op : G -> G -> G) (inv : G -> G) (a : G),
+    is_group G e op inv -> inv (inv a) = a.
+Proof.
+  intros G e op inv a Hgroup.
+  apply (inverse_unique_in_group G e op inv (inv a) (inv (inv a)) a).
+  - exact Hgroup.
+  - split.
+    + apply Hgroup.
+    + apply Hgroup.
+  - split.
+    + destruct Hgroup.
+      destruct H0.
+      destruct H1.
+      destruct H2.
+      apply H2.
+    + destruct Hgroup.
+      destruct H0.
+      destruct H1.
+      destruct H2.
+      apply H3.
+Qed.
+  
+ 
+  
+(*(ab)^-1 = b^-1 a^-1*)
+Theorem inv_op :
+  forall (G : Type) (e : G) (op : G -> G -> G) (inv : G -> G) (a b : G),
+    is_group G e op inv -> inv (op a b) = op (inv b) (inv a).
+Proof.
+  intros G e op inv a b Hgroup.
+  apply sym_eq. (*zamienia strony w równości*)
+  apply (inverse_unique_in_group G e op inv (op a b)).
+  - exact Hgroup. (*Dowód pierwszego celu, który jest w założeniach*)
+  - (* inv (ab) jest odwrotnością ab *)
+    split.
+    + destruct Hgroup.
+      destruct H0.
+      destruct H1.
+      destruct H2.
+      rewrite (H (op a b) (inv b) (inv a)).
+      rewrite <- (H a b (inv b)).
+      rewrite H3.
+      rewrite H1.
+      apply H3.
+    + destruct Hgroup.
+      destruct H0.
+      destruct H1.
+      destruct H2.
+      rewrite <- (H (inv b) (inv a) (op a b)).
+      rewrite (H (inv a) a b).
+      rewrite H2.
+      rewrite H0.
+      apply H2.
+  - (* b^{-1}a^{-1} jest odwrotnością ab *)
+    split.
+    + destruct Hgroup.
+      destruct H0.
+      destruct H1.
+      destruct H2.
+      apply H3.
+
+    + destruct Hgroup.
+      destruct H0.
+      destruct H1.
+      destruct H2.
+      apply H2.      
+Qed.
+  
+
+
+(*3*)
+Inductive Z3 : Type := | z0 | z1 | z2.
+
+Definition Z3_add (a b : Z3) : Z3 :=
+  match a, b with
+  | z0, x => x 
+  | x, z0 => x 
+  | z1, z1 => z2
+  | z1, z2 => z0 
+  | z2, z1 => z0 
+  | z2, z2 => z1 end.
+
+Definition Z3_zero : Z3 := z0.
+
+Definition Z3_inv (a : Z3) : Z3 := 
+  match a with
+  | z0 => z0
+  | z1 => z2 
+  | z2 => z1 
+end.
+
+(*Definicja grupy abelowej*)
+Definition is_abelian_group
+  (G : Type)
+  (e : G)
+  (op : G -> G -> G)
+  (inv : G -> G)
+  : Prop := is_group G e op inv /\ (forall a b : G, op a b = op b a).
+  
+(*Dowód, że Z3 jest grupą abelową*)
+Theorem Z3_abelian :
+  is_abelian_group Z3 Z3_zero Z3_add Z3_inv.
+Proof.
+  split.
+  - split.
+    + intros a b c.
+      destruct a; 
+      destruct b; 
+      destruct c; 
+      reflexivity.
+    + split.
+      * intros a.
+        destruct a; 
+        reflexivity.
+      * split.
+        -- intros a.
+           destruct a;
+           reflexivity.
+        -- split.
+           ++ intros a.
+              destruct a;
+              reflexivity.
+           ++ intros a.
+              destruct a;
+              reflexivity.
+  - intros a b.
+    destruct a;
+    destruct b;
+    reflexivity.
+Qed. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
