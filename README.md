@@ -52,7 +52,7 @@ Projekt zawiera przykłady następujących grup:
 
 - `(Z3, +)` – grupa cykliczna rzędu 3,
 - `(Z4, +)` – grupa cykliczna rzędu 4,
-- `(Z2, +)` jako podgrupa `Z4`.
+- `(Z2 = {0, 2}, +)` jako podgrupa `Z4`.
 
 ## Wymagania
 
