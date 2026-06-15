@@ -13,7 +13,7 @@ Celem projektu jest implementacja podstawowych definicji i twierdzeń z teorii g
 - prawa skracania,
 - własności odwrotności.
 - definicja grupy abelowej,
-- twierdzenie: grupa Z3 jest abelowa,
+- twierdzenie: grupa `(Z3, +)` z dodawanie modulo 3 jest abelowa,
 - Przykłady grup i podgrup
 
 ## Struktura projektu
@@ -43,20 +43,20 @@ W projekcie udowodniono następujące własności:
 - prawo skracania z prawej strony,
 - własność `(a⁻¹)⁻¹ = a`,
 - własność `(ab)⁻¹ = b⁻¹a⁻¹`,
-- grupa `(Z3, +)` jest abelowa,
-- `(Z2, +)` jest podgrupą `(Z4, +)`.
+- grupa `(Z3, +)` jest abelowa z dodawanie modulo 3,
+- `(Z2 = {0, 2}, +)` jest podgrupą `(Z4, +)` z dodawaniem modulo 4.
 
 ## Przykłady grup
 
 Projekt zawiera przykłady następujących grup:
 
-- `Z3` – grupa cykliczna rzędu 3,
-- `Z4` – grupa cykliczna rzędu 4,
-- `Z2` jako podgrupa `Z4`.
+- `(Z3, +)` – grupa cykliczna rzędu 3,
+- `(Z4, +)` – grupa cykliczna rzędu 4,
+- `(Z2, +)` jako podgrupa `Z4`.
 
 ## Wymagania
 
-Projekt został napisany w Rocq/Coq i wykorzystuje standardową bibliotekę 
+Projekt został napisany w Rocq/Coq i wymaga zaimportowania biblioteki:
 Require Import Ensembles.
 
 ## Możliwe rozwinięcia
