@@ -19,6 +19,7 @@ Celem projektu jest implementacja podstawowych definicji i twierdzeń z teorii g
 ## Struktura projektu
 
 Plik `Groups.v` zawiera wszystkie zaimplementowane definicje, twierdzenia oraz przykłady formalizacji grup.
+Plik `Raport.pdf` zawiera opis teoretyczny problemu, dokumentację kodu oraz omówienie wykorzystanych taktyk dowodowych.
 
 ## Zaimplementowane definicje
 
