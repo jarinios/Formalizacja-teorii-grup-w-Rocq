@@ -45,6 +45,7 @@ W projekcie udowodniono następujące własności:
 - własność `(ab)⁻¹ = b⁻¹a⁻¹`,
 - grupa `(Z3, +)` jest abelowa z dodawanie modulo 3,
 - `(Z2 = {0, 2}, +)` jest podgrupą `(Z4, +)` z dodawaniem modulo 4.
+- grupa inwolutywna jest abelowa
 
 ## Przykłady grup
 
@@ -53,6 +54,7 @@ Projekt zawiera przykłady następujących grup:
 - `(Z3, +)` – grupa cykliczna rzędu 3,
 - `(Z4, +)` – grupa cykliczna rzędu 4,
 - `(Z2 = {0, 2}, +)` jako podgrupa `Z4`.
+- czwórkowa grupa Kleina
 
 ## Wymagania
 
