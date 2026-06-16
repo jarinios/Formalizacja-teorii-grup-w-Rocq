@@ -399,8 +399,56 @@ Proof.
     destruct b;
     reflexivity.
 Qed. 
- 
- 
+
+  (*Dowód, że grupa involutywna jest abelowa*)
+Theorem involution_implies_abelian :
+  forall (G : Type) (e : G) (op : G -> G -> G) (inv : G -> G),
+  (is_group G e op inv) /\ (forall a : G, op a a = e) -> is_abelian_group G e op inv.
+Proof.
+intros.
+destruct H as [Hgrp Hinvol].
+split.
+- exact Hgrp.
+- destruct Hgrp as [Hassoc [HidL [HidR [HinvL HinvR]]]]. (* rozbicie warunków bycia grupą na szczególne warunki*)
+intros a b.
+assert (Hinvb : inv b = b).
+assert (Hbl : op b b = e) by (apply Hinvol). (*warunki Hinvol, HinvL dla ustalonego b*)
+assert (Hbr : op (inv b) b = e) by apply HinvL.
+assert (Hblr : op (inv b) b = op b b). (*polaczenie Hbl i Hbr*)
+rewrite Hbl, Hbr.
+trivial.
+apply right_cancellation with (G:=G) (e:=e) (op:=op) (inv:=inv) (a:=b). (*skracanie z prawej strony*)
+split.
+exact Hassoc.
+split.
+exact HidL.
+split.
+exact HidR.
+split.
+exact HinvL.
+exact HinvR.
+exact Hblr.
+assert (Hab1 : op (op a b) (op a b) = e) by (apply Hinvol). (*(ab)^2=e*)
+assert (Hab2 : op (op a b) (op b a) = e). (*ab ba =e*)
+rewrite <- Hassoc.
+rewrite (Hassoc b b a).
+rewrite Hinvol.
+rewrite HidL.
+rewrite Hinvol.
+trivial.
+rewrite <- Hab2 in Hab1.
+apply left_cancellation with (G:=G) (e:=e) (op:=op) (inv:=inv) (a:=op a b).
+split.
+exact Hassoc.
+split.
+exact HidL.
+split.
+exact HidR.
+split.
+exact HinvL.
+exact HinvR.
+exact Hab1.
+Qed.
  
  
  
