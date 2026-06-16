@@ -449,6 +449,107 @@ exact HinvL.
 exact HinvR.
 exact Hab1.
 Qed.
- 
+
+
+(*Przykład: czworkowa grupa Kleina*)
+Inductive V4 : Type :=
+| e : V4
+| a : V4
+| b : V4
+| c : V4.
+
+(* działanie grupowe *)
+Definition op (x y : V4) : V4 :=
+  match x, y with
+  | e, y => y
+  | x, e => x
+
+  | a, a => e
+  | b, b => e
+  | c, c => e
+
+  | a, b => c
+  | b, a => c
+
+  | b, c => a
+  | c, b => a
+
+  | c, a => b
+  | a, c => b
+  end.
+
+(* element neutralny *)
+Definition eV : V4 := e.
+
+(* każdy element jest swoją własną odwrotnością *)
+Definition inv (x : V4) : V4 :=
+  match x with
+  | e => e
+  | a => a
+  | b => b
+  | c => c
+  end.
+
+Lemma V4_involution :
+  forall x : V4, op x x = e.
+Proof.
+  intros x.
+  destruct x; simpl; reflexivity.
+Qed.
+
+Lemma V4_assoc :
+  forall a b c : V4,
+    op a (op b c) = op (op a b) c.
+Proof.
+  intros a b c.
+  destruct a, b, c; simpl; reflexivity.
+Qed.
+
+Lemma V4_left_id :
+  forall a : V4, op e a = a.
+Proof.
+  intro a; simpl; reflexivity.
+Qed.
+
+Lemma V4_right_id :
+  forall a : V4, op a e = a.
+Proof.
+  intro a; destruct a; simpl; reflexivity.
+Qed.
+
+Lemma V4_left_inv :
+  forall a : V4, op (inv a) a = e.
+Proof.
+  intro a; destruct a; simpl; reflexivity.
+Qed.
+
+Lemma V4_right_inv :
+  forall a : V4, op a (inv a) = e.
+Proof.
+  intro a; destruct a; simpl; reflexivity.
+Qed.
+
+(*Dowod, ze grupa Kleina jest grupa*)
+Theorem V4_is_group :
+  is_group V4 eV op inv.
+Proof.
+  unfold is_group.
+  repeat split.
+  - apply V4_assoc.
+  - apply V4_right_id.  
+  - apply V4_left_inv.
+  - apply V4_right_inv.
+Qed.
+
+(*dowod, ze grupa Kleina jest abelowa z wykorzystaniem twierdzenia o abelowosci grupy involutywnej*)
+Theorem V4_abelian :
+  is_abelian_group V4 eV op inv.
+Proof.
+  apply involution_implies_abelian.
+  split.
+  - apply V4_is_group.
+  - apply V4_involution.
+Qed.
+
  
  
